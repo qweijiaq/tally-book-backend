@@ -18,6 +18,14 @@ module.exports = (appInfo) => {
   // add your middleware config here
   config.middleware = [];
 
+  config.security = {
+    csrf: {
+      enable: false,
+      ignoreJSON: true,
+    },
+    domainWhiteList: ['*'], // 配置白名单
+  };
+
   config.mysql = {
     client: {
       host: '127.0.0.1',
