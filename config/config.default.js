@@ -42,9 +42,20 @@ module.exports = (appInfo) => {
     secret: 'biawviavsdah',
   };
 
+  config.multipart = {
+    mode: 'file',
+  };
+
+  config.cors = {
+    origin: '*',
+    credentials: true,
+    allowMethods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  };
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+    uploadDir: 'app/public/upload',
   };
 
   return {

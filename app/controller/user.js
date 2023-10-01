@@ -106,18 +106,58 @@ class UserController extends Controller {
     };
   }
 
-  // 测试 token
-  async test() {
+  // 获取用户信息
+  async getUserInfo() {
     const { ctx, app } = this;
+    const defaultAvatar =
+      'http://image.wei-jia.top:7777/users/1/avatar?size=small';
     const token = ctx.request.header.authorization;
     const decode = await app.jwt.verify(token, app.config.jwt.secret);
+    const userInfo = await ctx.service.user.getUserByName(decode.username);
     ctx.body = {
       code: 200,
-      msg: '获取成功',
+      msg: '请求成功',
       data: {
-        ...decode,
+        id: userInfo.id,
+        username: userInfo.username,
+        signature: userInfo.signature || '',
+        avatar: userInfo.avatar || defaultAvatar,
       },
     };
+  }
+
+  // 修改用户信息 —— 个性签名或头像
+  async editUserInfo() {
+    const { ctx, app } = this;
+    // 通过 post 请求，在请求体中获取签名字段 signature
+    const { signature = '', avatar = '' } = ctx.request.body;
+
+    try {
+      const token = ctx.request.header.authorization;
+      const decode = await app.jwt.verify(token, app.config.jwt.secret);
+      if (!decode) return;
+      const userId = decode.id;
+      const userInfo = await ctx.service.user.getUserByName(decode.username);
+      await ctx.service.user.editUserInfo({
+        ...userInfo,
+        signature,
+        avatar,
+      });
+
+      ctx.body = {
+        code: 200,
+        msg: '请求成功',
+        data: {
+          id: userId,
+          signature,
+          username: userInfo.username,
+          avatar,
+        },
+      };
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   }
 }
 

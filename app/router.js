@@ -9,12 +9,13 @@ module.exports = (app) => {
   const _jwt = middleware.jwtErr(app.config.jwt.secret);
 
   router.get('/', controller.home.index);
-  router.get('/users', controller.home.getUser);
-  router.put('/users', controller.home.editUser);
-  router.del('/users', controller.home.deleteUser);
-  router.put('/users', controller.home.editUser);
-  router.del('/users', controller.home.deleteUser);
+
   router.post('/api/register', controller.user.register);
   router.post('/api/login', controller.user.login);
-  router.get('/api/test', _jwt, controller.user.test);
+
+  router.get('/api/users', _jwt, controller.user.getUserInfo);
+  router.put('/api/users', _jwt, controller.user.editUserInfo);
+  // router.del('/api/users', controller.home.deleteUser);
+  // router.put('/api/users', controller.home.editUser);
+  // router.del('/api/users', controller.home.deleteUser);
 };
