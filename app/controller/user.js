@@ -136,7 +136,7 @@ class UserController extends Controller {
       const token = ctx.request.header.authorization;
       const decode = await app.jwt.verify(token, app.config.jwt.secret);
       if (!decode) return;
-      const userId = decode.id;
+      const user_id = decode.id;
       const userInfo = await ctx.service.user.getUserByName(decode.username);
       await ctx.service.user.editUserInfo({
         ...userInfo,
@@ -148,7 +148,7 @@ class UserController extends Controller {
         code: 200,
         msg: '请求成功',
         data: {
-          id: userId,
+          id: user_id,
           signature,
           username: userInfo.username,
           avatar,

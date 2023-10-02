@@ -15,7 +15,7 @@ module.exports = (app) => {
 
   router.get('/api/users', _jwt, controller.user.getUserInfo);
   router.put('/api/users', _jwt, controller.user.editUserInfo);
-  // router.del('/api/users', controller.home.deleteUser);
-  // router.put('/api/users', controller.home.editUser);
-  // router.del('/api/users', controller.home.deleteUser);
+
+  router.post('/api/bills', _jwt, controller.bill.addBill);
+  router.get('/api/bills', _jwt, controller.bill.getBill);
 };

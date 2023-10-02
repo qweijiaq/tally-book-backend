@@ -1,3 +1,5 @@
+'use strict';
+
 const Service = require('egg').Service;
 
 class HomeService extends Service {
@@ -32,9 +34,9 @@ class HomeService extends Service {
 
   // 编辑用户
   async editUser(id, name) {
-    const { ctx, app } = this;
+    const { app } = this;
     try {
-      let result = await app.mysql.update(
+      await app.mysql.update(
         'list',
         { name },
         {
@@ -48,10 +50,10 @@ class HomeService extends Service {
   }
 
   // 删除用户
-  async deleteUser(id, name) {
-    const { ctx, app } = this;
+  async deleteUser(id) {
+    const { app } = this;
     try {
-      let result = await app.mysql.delete('list', { id });
+      await app.mysql.delete('list', { id });
     } catch (error) {
       console.log(error);
       return null;
